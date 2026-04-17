@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>祥和園活魚餐廳 - 電子菜單</title>
+    <style>
+        :root {
+            --primary-red: #8B0000;
+            --bg-color: #fdfaf5;
+            --card-bg: #ffffff;
+            --header-offset: 100px;
+        }
+
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-bottom: 80px;
+        }
+
+        #bgm { display: none; }
+
+        header {
+            background-color: var(--primary-red);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #music-btn {
+            position: absolute;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            overflow-x: auto;
+            background: white;
+            padding: 10px 5px;
+            position: sticky;
+            top: 54px;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            padding: 5px 12px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .container { padding: 15px; }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #333;
+            border-left: 5px solid var(--primary-red);
+            padding-left: 10px;
+            margin: 25px 0 15px;
+            scroll-margin-top: var(--header-offset);
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .menu-item {
+            width: 48%; 
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-img-box {
+            width: 100%;
+            height: 110px;
+            cursor: zoom-in;
+        }
+
+        .menu-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 85px;
+        }
+
+        .dish-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 0;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .tag {
+            font-size: 0.65rem;
+            padding: 1px 4px;
+            border-radius: 4px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+        .tag-spicy { color: #d32f2f; border: 1px solid #d32f2f; background: #fff5f5; }
+        .tag-award { color: #f57c00; border: 1px solid #f57c00; background: #fffde7; }
+        .tag-special { color: #2e7d32; border: 1px solid #2e7d32; background: #f1f8e9; }
+
+        .price {
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 5px 0 0 0;
+            text-align: right;
+        }
+
+        #btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 1001;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center; align-items: center;
+        }
+        #overlay img { max-width: 90%; max-height: 80%; border-radius: 8px; }
+    </style>
+</head>
+<body onclick="playMusic()"> 
+
+<audio id="bgm" src="bga1.mp3" loop autoplay></audio>
+
+<header>
+    <h1 style="margin:0; font-size: 1.2rem;">祥和園活魚餐廳</h1>
+    <button id="music-btn" onclick="toggleMusic(event)">音樂開關 🔈</button>
+</header>
+
+<nav>
+    <a href="#fish">活魚口味</a>
+    <a href="#chicken">珍珠土雞</a>
+    <a href="#vege">青菜類</a>
+    <a href="#staple">飯麵點心</a>
+    <a href="#home">家常菜</a>
+    <a href="#seafood">海鮮類</a>
+    <a href="#soup">湯品</a>
+</nav>
+
+<div class="container">
+    <h2 id="fish">活魚口味 (草魚/烏溜)</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="砂鍋魚頭湯.jpg"></div><div class="menu-info"><p class="dish-name">砂鍋魚頭湯</p><p class="price">$580</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="味噌魚頭湯.jpg"></div><div class="menu-info"><p class="dish-name">味噌魚頭湯</p><p class="price">$450</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="薑絲魚頭湯.jpg"></div><div class="menu-info"><p class="dish-name">薑絲魚頭湯</p><p class="price">$450</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="糖醋鮮魚.jpg"></div><div class="menu-info"><p class="dish-name">糖醋鮮魚 <span class="tag tag-special">招牌</span></p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="酥炸魚塊.jpg"></div><div class="menu-info"><p class="dish-name">酥炸魚塊</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="金沙魚柳.jpg"></div><div class="menu-info"><p class="dish-name">金沙魚柳 <span class="tag tag-award">冠軍菜</span></p><p class="price">$520</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="泰式檸檬魚.jpg"></div><div class="menu-info"><p class="dish-name">泰式檸檬魚</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="清蒸蒸魚.jpg"></div><div class="menu-info"><p class="dish-name">清蒸蒸魚</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="冬瓜蒸魚.jpg"></div><div class="menu-info"><p class="dish-name">冬瓜蒸魚</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="蒜泥魚片.jpg"></div><div class="menu-info"><p class="dish-name">蒜泥魚片</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="水煮活魚.jpg"></div><div class="menu-info"><p class="dish-name">水煮活魚 <span class="tag tag-spicy">辣</span></p><p class="price">$550</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="豆瓣鮮魚.jpg"></div><div class="menu-info"><p class="dish-name">豆瓣鮮魚 <span class="tag tag-spicy">辣</span></p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="宮保魚丁.jpg"></div><div class="menu-info"><p class="dish-name">宮保魚丁 <span class="tag tag-spicy">辣</span></p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="三杯鮮魚.jpg"></div><div class="menu-info"><p class="dish-name">三杯鮮魚</p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="鐵板魚柳.jpg"></div><div class="menu-info"><p class="dish-name">鐵板魚柳</p><p class="price">$500</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="酸菜魚.jpg"></div><div class="menu-info"><p class="dish-name">酸菜魚 <span class="tag tag-spicy">辣</span></p><p class="price">$550</p></div></div>
+    </div>
+
+    <h2 id="chicken">珍珠土雞</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="白斬土雞.jpg"></div><div class="menu-info"><p class="dish-name">白斬土雞</p><p class="price">$350 / 650</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="甘蔗雞.jpg"></div><div class="menu-info"><p class="dish-name">甘蔗雞</p><p class="price">$350 / 650</p></div></div>
+    </div>
+
+    <h2 id="vege">青菜類</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="山蘇.jpg"></div><div class="menu-info"><p class="dish-name">山蘇 (冬天)</p><p class="price">$160 / 300</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="水蓮.jpg"></div><div class="menu-info"><p class="dish-name">水蓮</p><p class="price">$160 / 280</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="應時蔬菜.jpg"></div><div class="menu-info"><p class="dish-name">應時蔬菜</p><p class="price">$200</p></div></div>
+    </div>
+
+    <h2 id="staple">飯、麵、點心類</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="肉絲炒麵.jpg"></div><div class="menu-info"><p class="dish-name">肉絲炒麵</p><p class="price">$90</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="祥和蛋炒飯.jpg"></div><div class="menu-info"><p class="dish-name">祥和蛋炒飯</p><p class="price">$90</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="酥炸銀絲卷.jpg"></div><div class="menu-info"><p class="dish-name">酥炸銀絲卷</p><p class="price">$60</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="香酥蔥油餅.jpg"></div><div class="menu-info"><p class="dish-name">香酥蔥油餅</p><p class="price">$90</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="白飯.jpg"></div><div class="menu-info"><p class="dish-name">白飯</p><p class="price">$15</p></div></div>
+    </div>
+
+    <h2 id="home">精選家常菜</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="客家小炒.jpg"></div><div class="menu-info"><p class="dish-name">客家小炒</p><p class="price">$240 / 360</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="薑絲大腸.jpg"></div><div class="menu-info"><p class="dish-name">薑絲大腸</p><p class="price">$220 / 360</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="黃金悶筍.jpg"></div><div class="menu-info"><p class="dish-name">黃金悶筍</p><p class="price">$240 / 340</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="五更腸旺.jpg"></div><div class="menu-info"><p class="dish-name">五更腸旺</p><p class="price">$220 / 350</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="梅干扣肉.jpg"></div><div class="menu-info"><p class="dish-name">梅干扣肉 (假日)</p><p class="price">$280 / 520</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="蔥爆牛肉.jpg"></div><div class="menu-info"><p class="dish-name">蔥爆牛肉</p><p class="price">$250 / 380</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="椒鹽里肌肉.jpg"></div><div class="menu-info"><p class="dish-name">椒鹽里肌肉</p><p class="price">$240 / 380</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="蔥燒豆腐.jpg"></div><div class="menu-info"><p class="dish-name">蔥燒豆腐 (傳統)</p><p class="price">$250</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="鐵板豆腐.jpg"></div><div class="menu-info"><p class="dish-name">鐵板豆腐 (嫩)</p><p class="price">$280</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="蒜香山豬肉.jpg"></div><div class="menu-info"><p class="dish-name">蒜香山豬肉</p><p class="price">$350</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="水煮牛肉.jpg"></div><div class="menu-info"><p class="dish-name">水煮牛肉 <span class="tag tag-spicy">辣</span></p><p class="price">$480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="鐵板牛肉.jpg"></div><div class="menu-info"><p class="dish-name">鐵板牛肉</p><p class="price">$420</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="拔絲地瓜.jpg"></div><div class="menu-info"><p class="dish-name">拔絲地瓜</p><p class="price">$240</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="菜脯蛋.jpg"></div><div class="menu-info"><p class="dish-name">菜脯蛋 <span class="tag tag-special">平日限定</span></p><p class="price">$240</p></div></div>
+    </div>
+
+    <h2 id="seafood">海鮮類</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="紅燒海蔘.jpg"></div><div class="menu-info"><p class="dish-name">紅燒海蔘</p><p class="price">$280 / 480</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="鳳梨蝦球.jpg"></div><div class="menu-info"><p class="dish-name">鳳梨蝦球</p><p class="price">$450</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="蒜泥蒸蝦.jpg"></div><div class="menu-info"><p class="dish-name">蒜泥蒸蝦</p><p class="price">$450</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="椒鹽鮮蝦.jpg"></div><div class="menu-info"><p class="dish-name">椒鹽鮮蝦</p><p class="price">$450</p></div></div>
+    </div>
+
+    <h2 id="soup">湯品</h2>
+    <div class="menu-grid">
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="酸菜肚片湯.jpg"></div><div class="menu-info"><p class="dish-name">酸菜肚片湯</p><p class="price">$200 / 300</p></div></div>
+        <div class="menu-item"><div class="menu-img-box" onclick="zoom(this)"><img src="海鮮什錦湯.jpg"></div><div class="menu-info"><p class="dish-name">海鮮什錦湯</p><p class="price">$260 / 450</p></div></div>
+    </div>
+</div>
+
+<a href="#" id="btn-top">TOP</a>
+
+<div id="overlay" onclick="this.style.display='none'"><img id="overlay-img" src=""></div>
+
+<script>
+    const audio = document.getElementById('bgm');
+    let hasPlayed = false;
+
+    function toggleMusic(e) {
+        e.stopPropagation();
+        if (audio.paused) {
+            audio.play();
+            document.getElementById('music-btn').innerText = "音樂開關 🔈";
+        } else {
+            audio.pause();
+            document.getElementById('music-btn').innerText = "音樂開關 🔇";
+        }
+    }
+
+    function playMusic() {
+        if (!hasPlayed) {
+            audio.play().catch(() => {});
+            hasPlayed = true;
+        }
+    }
+
+    function zoom(el) {
+        document.getElementById('overlay-img').src = el.querySelector('img').src;
+        document.getElementById('overlay').style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>
