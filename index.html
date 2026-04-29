@@ -190,6 +190,132 @@
     <a href="#soup">湯品</a>
 </nav>
 
+<div class="alert-container">
+
+    <p class="custom-big-alert">
+
+        💡 貼心提醒：圖片可點擊放大，再次點任意位置可關閉圖片
+
+    </p>
+
+</div>
+
+
+
+<style>
+
+    /* 容器確保絕對置中 */
+
+    .alert-container {
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        width: 100%;
+
+        margin-top: 5px;
+
+        margin-bottom: 5px;
+
+        padding: 0 10px;
+
+    }
+
+
+
+    .custom-big-alert {
+
+        /* 1. 字體設計：超大、粗體、主色紅 */
+
+        font-size: 20px; /* 極大字體 */
+
+        font-weight: 900; /* 最粗體 */
+
+        color: #A82424; /* 祥和園主色紅 */
+
+        
+
+        /* 2. 背景與邊框：醒目黃底 + 白邊 */
+
+        background-color: #FFCC5D; /* 醒目黃 */
+
+        padding: 5px 10px;
+
+        border-radius: 100px; /* 膠囊狀 */
+
+        border: 5px solid white;
+
+        
+
+        /* 3. 陰影與動畫 */
+
+        box-shadow: 0 15px 35px rgba(168, 36, 36, 0.3);
+
+        display: inline-block;
+
+        text-align: center;
+
+        animation: super-pulse 2s infinite ease-in-out;
+
+        
+
+        /* 防止手機版換行導致變形，若字太長會自動縮放 */
+
+        white-space: nowrap; 
+
+    }
+
+
+
+    /* 強烈呼吸縮放動畫 */
+
+    @keyframes super-pulse {
+
+        0%, 100% {
+
+            transform: scale(1);
+
+            filter: brightness(1);
+
+        }
+
+        50% {
+
+            transform: scale(1.1); /* 放大 10% */
+
+            filter: brightness(1.15); /* 稍微變亮 */
+
+            box-shadow: 0 20px 45px rgba(168, 36, 36, 0.5);
+
+        }
+
+    }
+
+
+
+    /* 針對手機版進行自動縮放調整，避免字體超出螢幕 */
+
+    @media (max-width: 768px) {
+
+        .custom-big-alert {
+
+            font-size: 20px; /* 手機版稍縮小但依然明顯 */
+
+            padding: 15px 30px;
+
+            white-space: normal; /* 手機版允許換行 */
+
+            line-height: 1;
+
+        }
+
+    }
+
+</style>
+
 <div class="container">
     <h2 id="fish">活魚口味 (草魚/烏溜)</h2>
     <div class="menu-grid">
